@@ -30,6 +30,132 @@ var Algorithms = {
 };
 
 //////////////////////////////////////////
+// Check board Algorithm ////////////////
+//////////////////////////////////////////
+
+Algorithms.title.checkboard = "Check board debugger";
+
+Algorithms.prepare.checkboard = function() {
+
+	// Disable unused parameters
+	Controller.params.hide(['strokeW', 'textbox']);
+
+	// Add Parameters
+	Controller.params.add('beziers', '# of Beziers:', 'Number of Beziers-Sets to be drawn', 2);
+
+	// Set Default Variables:
+	Controller.params.set({
+		bgcolor: '#ffffff',
+		count: 8,
+		stroke: '#000',
+		fill: '#000',
+		opacity: 100,
+		minsize: 10,
+		maxsize: 0,
+		paddingV: 20,
+		paddingH: 20
+	});
+};
+
+Algorithms.draw.checkboard = function() {
+
+	var startX, startY, fromX, fromY, toX, toY, path, unit;
+	unit = parseInt(Controller.params.minsize);
+	path = "";
+
+	for (var i = 1; i <= Controller.params.count; i++)
+	{
+
+		console.log(parseInt(Controller.params.paddingH)+i);
+		startX = parseInt(Controller.params.paddingH) + i * unit;
+
+		for (var j =  1; j <= Controller.params.count; j++) {
+				
+			startY = parseInt(Controller.params.paddingV) + j * unit;
+			var topRightX, topRightY, bottomRightX, bottomRightY, bottomLeftX, bottomLeftY;
+			
+			topRightX = startX + unit;
+			topRightY = startY;
+
+			bottomRightX = topRightX;
+			bottomRightY = startY + unit;
+
+			bottomLeftX = startX;
+			bottomLeftY = bottomRightY;
+
+			path += " M " + startX + " " + startY;
+			path += " L " + topRightX + " " + topRightY + " " + bottomRightX + " " + bottomRightY  + " " + bottomLeftX + " " + bottomLeftY + " Z";
+
+		}
+
+	}
+	console.log(path);
+
+	Controller.paper.svg.path(path).attr({
+				fill: Controller.params.fill,
+				opacity: Controller.params.opacity / 100
+			});
+};
+
+
+
+//////////////////////////////////////////
+// Long Path Algorithm ////////////////
+//////////////////////////////////////////
+
+Algorithms.title.longPath = "Long Path";
+
+Algorithms.prepare.longPath = function() {
+
+	// Disable unused parameters
+	Controller.params.hide(['strokeW', 'textbox']);
+
+	// Add Parameters
+	Controller.params.add('beziers', '# of Beziers:', 'Number of Beziers-Sets to be drawn', 2);
+
+	// Set Default Variables:
+	Controller.params.set({
+		bgcolor: '#000',
+		count: 200,
+		stroke: '#EEE',
+		fill: 'none',
+		opacity: 30,
+		minsize: 1,
+		maxsize: 3,
+		paddingV: -220,
+		paddingH: -220
+	});
+};
+
+Algorithms.draw.longPath = function() {
+
+	var startX, startY, posX, posY, toX, toY, path;
+
+	for (var i = 0; i < Controller.params.beziers; i += 1) {
+
+		startX = Math.rnd(Controller.params.paddingH, Controller.paper.X - Controller.params.paddingH);
+		startY = Math.rnd(Controller.params.paddingV, Controller.paper.Y - Controller.params.paddingV);
+
+		toX = Math.rnd(Controller.params.paddingH, Controller.paper.X - Controller.params.paddingH);
+		toY = Math.rnd(Controller.params.paddingV, Controller.paper.Y - Controller.params.paddingV);
+
+		for (var j = 0; j < Controller.params.count; j += 1) {
+
+			posX = Math.rnd(Controller.params.paddingH, Controller.paper.X - Controller.params.paddingH);
+			posY = Math.rnd(Controller.params.paddingV, Controller.paper.Y - Controller.params.paddingV);
+
+			path += " M " + startX + " " + startY + "Q" + posX + " " + posY + " " + toX + " " + toY + " ";
+
+
+		}
+			Controller.paper.svg.path(path).attr({
+				fill: Controller.params.fill,
+				opacity: Controller.params.opacity / 100
+			});
+	}
+};
+
+//////////////////////////////////////////
 // Intro Animation ///////////////////////
 //////////////////////////////////////////
 
