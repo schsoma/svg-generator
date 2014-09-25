@@ -198,7 +198,7 @@ Parameters.prototype.validate = function() {
 	}
 
 	// Check specific Parameters:
-	valNumber('count', 0, 8096);
+	valNumber('count', 0, 40000);
 	valNumber('strokeW', 0, 200, 'none');
 	valNumber('opacity', 0, 100);
 	valNumber('minsize', 0, 8096);
